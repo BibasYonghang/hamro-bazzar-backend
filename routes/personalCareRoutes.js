@@ -1,4 +1,4 @@
-import personalCareController from "../controllers/personalCareController";
+import personalCareController from "../controllers/personalCareController.js";
 import express from "express";
 
 const router = express.Router();
