@@ -7,6 +7,7 @@ import electronicsRoutes from "./routes/electronicsRoutes.js";
 import homeFurnitureRoutes from "./routes/homeFurnitureRoutes.js";
 import personalCareRoutes from "./routes/personalCareRoutes.js";
 import gamingRoutes from "./routes/gamingRoutes.js";
+import featuredProducts from "./routes/featuredProductsRoutes.js";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use("/api/electronics", electronicsRoutes);
 app.use("/api/home-furniture", homeFurnitureRoutes);
 app.use("/api/personal-care", personalCareRoutes);
 app.use("/api/gaming", gamingRoutes);
+app.use("/api/featured-products", featuredProducts);
 
 app.listen(PORT, () =>
   console.log(`✅ Server running at http://localhost:${PORT}`)
