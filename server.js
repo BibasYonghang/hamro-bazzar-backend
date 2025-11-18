@@ -8,25 +8,34 @@ import homeFurnitureRoutes from "./routes/homeFurnitureRoutes.js";
 import personalCareRoutes from "./routes/personalCareRoutes.js";
 import gamingRoutes from "./routes/gamingRoutes.js";
 import featuredProducts from "./routes/featuredProductsRoutes.js";
+import offeredProducts from "./routes/offeredProductsController.js";
 import categoryElectronicsRoutes from "./routes/category-products-routes/elctronicsRoutes.js";
 import categoryGamingRoutes from "./routes/category-products-routes/gamingRoutes.js";
 import categoryHomeFurnitureRoutes from "./routes/category-products-routes/homeFurnitureRoutes.js";
 import categoryPersonalCareRoutes from "./routes/category-products-routes/personalCareRoutes.js";
+import allProductsRoutes from "./routes/allProductsRoutes.js";
+import orderRoutes from "./routes/orderRoute.js";
 
 dotenv.config();
 
 const app = express();
-const PORT = parseInt(process.env.PORT);
+const PORT = parseInt(process.env.PORT) || 5000;
 
+// Middleware
 app.use(cors());
+app.use(express.json()); // Parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
+// MongoDB Connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection failed", err));
 
-app.get("/", (req, res) => res.send("Hello World!!!biabs!!"));
+// Test Route
+app.get("/", (req, res) => res.send("Hello World!!! Bibas!!"));
 
+// Product Routes
 app.use("/api/electronics", electronicsRoutes);
 app.use("/api/home-furniture", homeFurnitureRoutes);
 app.use("/api/personal-care", personalCareRoutes);
@@ -36,7 +45,13 @@ app.use("/api/category-electronics", categoryElectronicsRoutes);
 app.use("/api/category-gaming", categoryGamingRoutes);
 app.use("/api/category-personal-care", categoryPersonalCareRoutes);
 app.use("/api/category-home-furniture", categoryHomeFurnitureRoutes);
+app.use("/api/all-products", allProductsRoutes);
+app.use("/api/offered-products", offeredProducts);
 
+// Order Routes
+app.use("/api", orderRoutes);
+
+// Start Server
 app.listen(PORT, () =>
   console.log(`✅ Server running at http://localhost:${PORT}`)
 );
