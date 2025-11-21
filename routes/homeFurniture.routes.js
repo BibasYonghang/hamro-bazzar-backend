@@ -1,5 +1,5 @@
 import express from "express";
-import homeFurnitureController from "../controllers/homeFurnitureController.js";
+import homeFurnitureController from "../controllers/homeFurniture.controller.js";
 
 const router = express.Router();
 router.get("/", homeFurnitureController);

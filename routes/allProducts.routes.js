@@ -1,4 +1,4 @@
-import allProductsController from "../controllers/allProductsController.js";
+import allProductsController from "../controllers/allProducts.controller.js";
 import express from "express";
 
 const router = express.Router();

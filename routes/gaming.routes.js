@@ -1,4 +1,4 @@
-import gamingController from "../controllers/gamingController.js";
+import gamingController from "../controllers/gaming.controller.js";
 import express from "express";
 
 const router = express.Router();

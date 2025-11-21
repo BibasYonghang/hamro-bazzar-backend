@@ -8,18 +8,18 @@ import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 
 // Routes
-import electronicsRoutes from "./routes/electronicsRoutes.js";
-import homeFurnitureRoutes from "./routes/homeFurnitureRoutes.js";
-import personalCareRoutes from "./routes/personalCareRoutes.js";
-import gamingRoutes from "./routes/gamingRoutes.js";
-import featuredProductsRoutes from "./routes/featuredProductsRoutes.js";
-import offeredProductsRoutes from "./routes/offeredProductsRoutes.js";
-import categoryElectronicsRoutes from "./routes/category-products-routes/elctronicsRoutes.js";
-import categoryGamingRoutes from "./routes/category-products-routes/gamingRoutes.js";
-import categoryHomeFurnitureRoutes from "./routes/category-products-routes/homeFurnitureRoutes.js";
-import categoryPersonalCareRoutes from "./routes/category-products-routes/personalCareRoutes.js";
-import allProductsRoutes from "./routes/allProductsRoutes.js";
-import orderRoutes from "./routes/orderRoute.js";
+import electronicsRoutes from "./routes/electronics.routes.js";
+import homeFurnitureRoutes from "./routes/homeFurniture.routes.js";
+import personalCareRoutes from "./routes/personalCare.routes.js";
+import gamingRoutes from "./routes/gaming.routes.js";
+import featuredProductsRoutes from "./routes/featuredProducts.routes.js";
+import offeredProductsRoutes from "./routes/offeredProducts.routes.js";
+import categoryElectronicsRoutes from "./routes/category-products-routes/elctronics.routes.js";
+import categoryGamingRoutes from "./routes/category-products-routes/gaming.routes.js";
+import categoryHomeFurnitureRoutes from "./routes/category-products-routes/homeFurniture.routes.js";
+import categoryPersonalCareRoutes from "./routes/category-products-routes/personalCare.routes.js";
+import allProductsRoutes from "./routes/allProducts.routes.js";
+import orderRoutes from "./routes/order.routes.js";
 
 dotenv.config();
 
