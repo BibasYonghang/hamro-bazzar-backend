@@ -33,8 +33,8 @@ export const generateSignature = (req, res) => {
             product_code,
             product_service_charge,
             product_delivery_charge,
-            success_url: 'https://localhost:5000/payment-success',
-            failure_url: 'https://localhost:5000/payment-failure',
+            success_url: 'https://hamro-bazzar.onrender.com/payment-success',
+            failure_url: 'https://hamro-bazzar.onrender.com/payment-failure',
             signed_field_names,
             signature
         });
