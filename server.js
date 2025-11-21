@@ -1,14 +1,19 @@
+// server.js
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
+import helmet from "helmet";
+import morgan from "morgan";
+import rateLimit from "express-rate-limit";
 
+// Routes
 import electronicsRoutes from "./routes/electronicsRoutes.js";
 import homeFurnitureRoutes from "./routes/homeFurnitureRoutes.js";
 import personalCareRoutes from "./routes/personalCareRoutes.js";
 import gamingRoutes from "./routes/gamingRoutes.js";
-import featuredProducts from "./routes/featuredProductsRoutes.js";
-import offeredProducts from "./routes/offeredProductsController.js";
+import featuredProductsRoutes from "./routes/featuredProductsRoutes.js";
+import offeredProductsRoutes from "./routes/offeredProductsRoutes.js";
 import categoryElectronicsRoutes from "./routes/category-products-routes/elctronicsRoutes.js";
 import categoryGamingRoutes from "./routes/category-products-routes/gamingRoutes.js";
 import categoryHomeFurnitureRoutes from "./routes/category-products-routes/homeFurnitureRoutes.js";
@@ -21,37 +26,98 @@ dotenv.config();
 const app = express();
 const PORT = parseInt(process.env.PORT) || 5000;
 
-// Middleware
-app.use(cors());
-app.use(express.json()); // Parse JSON bodies
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+// ----------- Middleware -----------
 
-// MongoDB Connection
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch((err) => console.error("❌ MongoDB connection failed", err));
+// Enable CORS for your frontend
+app.use(
+  cors({
+    origin: "https://hamro-bazzar-six.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
-// Test Route
-app.get("/", (req, res) => res.send("Hello World!!! Bibas!!"));
+// Security headers
+app.use(helmet());
+
+// Rate limiter (100 requests per 15 min)
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: "Too many requests from this IP, please try again later.",
+});
+app.use(limiter);
+
+// Body parsers
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Logging (only in development)
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
+
+// ----------- Routes -----------
+
+// Test route
+app.get("/", (req, res) => res.send("✅ Server is running!"));
 
 // Product Routes
 app.use("/api/electronics", electronicsRoutes);
 app.use("/api/home-furniture", homeFurnitureRoutes);
 app.use("/api/personal-care", personalCareRoutes);
 app.use("/api/gaming", gamingRoutes);
-app.use("/api/featured-products", featuredProducts);
+app.use("/api/featured-products", featuredProductsRoutes);
+app.use("/api/offered-products", offeredProductsRoutes);
 app.use("/api/category-electronics", categoryElectronicsRoutes);
 app.use("/api/category-gaming", categoryGamingRoutes);
 app.use("/api/category-personal-care", categoryPersonalCareRoutes);
 app.use("/api/category-home-furniture", categoryHomeFurnitureRoutes);
 app.use("/api/all-products", allProductsRoutes);
-app.use("/api/offered-products", offeredProducts);
 
 // Order Routes
-app.use("/api", orderRoutes);
+app.use("/api/orders", orderRoutes);
 
-// Start Server
-app.listen(PORT, () =>
-  console.log(`✅ Server running at http://localhost:${PORT}`)
-);
+// ----------- Global Error Handler -----------
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || "Something went wrong!",
+  });
+});
+
+// ----------- MongoDB Connection -----------
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("✅ MongoDB connected");
+
+    // Start server only after DB connection
+    const server = app.listen(PORT, () =>
+      console.log(`✅ Server running at http://localhost:${PORT}`)
+    );
+
+    // Graceful shutdown
+    process.on("SIGINT", async () => {
+      console.log("⚠️ SIGINT received, closing server and DB connection...");
+      await mongoose.connection.close();
+      server.close(() => {
+        console.log("✅ Server closed gracefully");
+        process.exit(0);
+      });
+    });
+
+    process.on("SIGTERM", async () => {
+      console.log("⚠️ SIGTERM received, closing server and DB connection...");
+      await mongoose.connection.close();
+      server.close(() => {
+        console.log("✅ Server closed gracefully");
+        process.exit(0);
+      });
+    });
+  })
+  .catch((err) => console.error("❌ MongoDB connection failed", err));
