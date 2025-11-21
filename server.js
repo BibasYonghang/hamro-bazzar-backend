@@ -76,7 +76,7 @@ app.use("/api/category-home-furniture", categoryHomeFurnitureRoutes);
 app.use("/api/all-products", allProductsRoutes);
 
 // Order Routes
-app.use("/api/orders", orderRoutes);
+app.use("/api", orderRoutes);
 
 // ----------- Global Error Handler -----------
 app.use((err, req, res, next) => {
