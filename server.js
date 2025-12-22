@@ -1,7 +1,8 @@
-// server.js
+import dotenv from "dotenv";
+dotenv.config({ path: "./.env.development" });
+
 import express from "express";
 import mongoose from "mongoose";
-import dotenv from "dotenv";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -19,19 +20,19 @@ import categoryGamingRoutes from "./routes/category-products-routes/gaming.route
 import categoryHomeFurnitureRoutes from "./routes/category-products-routes/homeFurniture.routes.js";
 import categoryPersonalCareRoutes from "./routes/category-products-routes/personalCare.routes.js";
 import allProductsRoutes from "./routes/allProducts.routes.js";
-import orderRoutes from "./routes/order.routes.js";
-
-dotenv.config();
+import orderRoutes from "./routes/payments-routes/order.routes.js";
 
 const app = express();
 const PORT = parseInt(process.env.PORT) || 5000;
+const frontend = process.env.FRONTEND_URL;
+console.log("THIS IS FRONTEND",frontend)
 
 // ----------- Middleware -----------
 
 // Enable CORS for your frontend
 app.use(
   cors({
-    origin: "https://hamro-bazzar-six.vercel.app",
+    origin: frontend,
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
@@ -51,11 +52,6 @@ app.use(limiter);
 // Body parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Logging (only in development)
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-}
 
 // ----------- Routes -----------
 
