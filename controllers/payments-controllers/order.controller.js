@@ -1,6 +1,6 @@
 import crypto from "crypto";
 
-import OrderModel from "../../models/order.model.js"; // make sure you have an Order schema
+import OrderModel from "../../models/Order.model.js"; // make sure you have an Order schema
 
 const FRONTEND_URL = process.env.FRONTEND_URL;
 

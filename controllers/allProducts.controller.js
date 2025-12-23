@@ -1,4 +1,4 @@
-import Products from "../models/Products.js";
+import Products from "../models/Products.model.js";
 
 const getAllProducts = async (req, res) => {
   try {
