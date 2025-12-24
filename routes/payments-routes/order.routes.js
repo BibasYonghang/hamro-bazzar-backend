@@ -17,6 +17,5 @@ router.get("/failure", paymentFailure); // eSewa will redirect here on failure
 
 router.post("/generate-signature", generateSignature);
 
-router.post("/postorder", createOrder);
 
 export default router;
