@@ -63,7 +63,7 @@ backend/
 
 ### `.env.development`
 PORT=5000
-MONGO_URI=mongodb://localhost:27017/hamro-bazzar
+MONGO_URI=mongodb://localhost:27017/hamro-bazzar (eg)
 FRONTEND_URL=http://localhost:5173
 .env.production
 PORT=5000
@@ -73,7 +73,7 @@ FRONTEND_URL=https://hamro-bazzar-six.vercel.app
 
 🛠️ Installation & Setup
 1️⃣ Clone the repository
-git clone https://github.com/your-username/hamro-bazzar-backend.git
+git clone 
 2️⃣ Install dependencies
 npm install
 3️⃣ Run in development

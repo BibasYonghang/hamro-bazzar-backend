@@ -27,9 +27,6 @@ const PORT = parseInt(process.env.PORT) || 5000;
 const frontend = process.env.FRONTEND_URL;
 console.log("THIS IS FRONTEND",frontend)
 
-// ----------- Middleware -----------
-
-// Enable CORS for your frontend
 app.use(
   cors({
     origin: frontend,
@@ -38,7 +35,6 @@ app.use(
   })
 );
 
-// Security headers
 app.use(helmet());
 
 // Rate limiter (100 requests per 15 min)
@@ -53,7 +49,6 @@ app.use(limiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ----------- Routes -----------
 
 // Test route
 app.get("/", (req, res) => res.send("✅ Server is running!"));
@@ -83,7 +78,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// ----------- MongoDB Connection -----------
+// MongoDB Connection --
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
