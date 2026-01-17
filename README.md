@@ -66,41 +66,38 @@ backend/
 ---
 
 🛠️ Installation & Setup
-# Clone the repository
-git clone 
+ `Clone the repository`
+### git clone 
 
-# Install dependencies
-npm install
+` Install dependencies`
+### npm install
 
-# Run in development
-npm run dev
+`Run in development`
+### npm run dev
 
-# Run in production
-npm start
-
-
-### 🔐 Security & Performance
-# CORS restricted to frontend domain
-# Rate limiting: 800 requests / 15 minutes per IP
-# Helmet for secure HTTP headers
-# Graceful shutdown for server & database
+`Run in production`
+### npm start
 
 
-### Production → platform env variables (Vercel / Railway / Render)
+## 🔐 Security & Performance
+- CORS restricted to frontend domain
+- Rate limiting: 800 requests / 15 minutes per IP
+- Helmet for secure HTTP headers
+- Graceful shutdown for server & database
 
 
-### 📈 Future Improvements
+## 📈 Future Improvements
 - Authentication & authorization (JWT)
 - Admin dashboard APIs
 - Order history & tracking
 - Webhooks for payment gateways
 - Redis caching
 
-### 👨‍💻 Author
-# Bibas Yonghang
-# MERN Stack Developer
+## 👨‍💻 Author
+ Bibas Yonghang
+### MERN Stack Developer
 
-### 📄 License
+## 📄 License
 This project is not under any license yet.
 
 ---
