@@ -1,0 +1,41 @@
+name: Backend CD
+
+on:
+  push:
+    branches:
+      - main    # production
+      - develop # staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./backend
+
+      - name: Build backend
+        run: echo "Backend is ready to deploy"
+        working-directory: ./backend
+
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.BACKEND_HOST }}
+          username: ${{ secrets.BACKEND_USER }}
+          key: ${{ secrets.BACKEND_SSH_KEY }}
+          port: 22
+          script: |
+            cd /var/www/backend
+            git pull origin ${{ github.ref_name }}
+            npm install
+            pm2 restart all

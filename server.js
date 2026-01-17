@@ -25,14 +25,14 @@ import orderRoutes from "./routes/payments-routes/order.routes.js";
 const app = express();
 const PORT = parseInt(process.env.PORT) || 5000;
 const frontend = process.env.FRONTEND_URL;
-console.log("THIS IS FRONTEND",frontend)
+console.log("THIS IS FRONTEND", frontend);
 
 app.use(
   cors({
     origin: frontend,
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
-  })
+  }),
 );
 
 app.use(helmet());
@@ -48,7 +48,6 @@ app.use(limiter);
 // Body parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 
 // Test route
 app.get("/", (req, res) => res.send("✅ Server is running!"));
@@ -89,7 +88,7 @@ mongoose
 
     // Start server only after DB connection
     const server = app.listen(PORT, () =>
-      console.log(`✅ Server running at http://localhost:${PORT}`)
+      console.log(`✅ Server running at http://localhost:${PORT}`),
     );
 
     // Graceful shutdown
