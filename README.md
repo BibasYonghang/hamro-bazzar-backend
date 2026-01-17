@@ -1,4 +1,4 @@
-# Hamro Bazzar – Backend API
+# 🛒 Hamro Bazzar Backend – Online eCommerce Platform
 
 This is the **backend REST API** for **Hamro Bazzar**, an eCommerce platform.  
 It handles product management, category-based APIs, orders, payments, and secure server-side logic.
@@ -34,7 +34,7 @@ It handles product management, category-based APIs, orders, payments, and secure
 ---
 
 ## 📁 Project Structure
-
+```bash
 backend/
 ├── routes/
 │ ├── electronics.routes.js
@@ -57,68 +57,50 @@ backend/
 ├── .env.development
 ├── .env.production
 └── README.md
-
+```
 
 ## ⚙️ Environment Variables
 
-### `.env.development`
-PORT=5000
-MONGO_URI=mongodb://localhost:27017/hamro-bazzar (eg)
-FRONTEND_URL=http://localhost:5173
-.env.production
-PORT=5000
-MONGO_URI=your_production_mongodb_uri
-FRONTEND_URL=https://hamro-bazzar-six.vercel.app
-⚠️ Never commit .env files to GitHub.
+⚠️ Never commit `.env.development` files to GitHub.
+ 
+---
 
 🛠️ Installation & Setup
-1️⃣ Clone the repository
+# Clone the repository
 git clone 
-2️⃣ Install dependencies
+
+# Install dependencies
 npm install
-3️⃣ Run in development
+
+# Run in development
 npm run dev
-4️⃣ Run in production
+
+# Run in production
 npm start
-🔐 Security & Performance
-CORS restricted to frontend domain
 
-Rate limiting: 800 requests / 15 minutes per IP
 
-Helmet for secure HTTP headers
+### 🔐 Security & Performance
+# CORS restricted to frontend domain
+# Rate limiting: 800 requests / 15 minutes per IP
+# Helmet for secure HTTP headers
+# Graceful shutdown for server & database
 
-Graceful shutdown for server & database
 
-🧪 API Test Route
-http
-Copy code
-GET /
-Response:
-"✅ Server is running!"
-🔄 Deployment Notes (IMPORTANT)
-✅ Professional approach for env handling
-import dotenv from "dotenv";
-dotenv.config(); // DO NOT hardcode env file in production
-Local → .env.development
+### Production → platform env variables (Vercel / Railway / Render)
 
-Production → platform env variables (Vercel / Railway / Render)
 
-❌ Do NOT do this in production:
-dotenv.config({ path: "./.env.development" });
-📈 Future Improvements
-Authentication & authorization (JWT)
+### 📈 Future Improvements
+- Authentication & authorization (JWT)
+- Admin dashboard APIs
+- Order history & tracking
+- Webhooks for payment gateways
+- Redis caching
 
-Admin dashboard APIs
+### 👨‍💻 Author
+# Bibas Yonghang
+# MERN Stack Developer
 
-Order history & tracking
-
-Webhooks for payment gateways
-
-Redis caching
-
-👨‍💻 Author
-Bibas Yonghang
-MERN Stack Developer
-
-📄 License
+### 📄 License
 This project is not under any license yet.
+
+---
