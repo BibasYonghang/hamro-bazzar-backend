@@ -14,15 +14,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Test SSH connection
-        uses: appleboy/ssh-action@v0.1.7
-        # with:
-        #   host: ${{ secrets.BACKEND_HOST }}
-        #   username: ${{ secrets.BACKEND_USER }}
-        #   key: ${{ secrets.BACKEND_SSH_KEY }}
-        #   port: 22
-        #   timeout: 30s
-        #   script: |
-        #     echo "SSH connection successful"
-        #     whoami
-        #     pwd
+      # - name: Test SSH connection
+      #   uses: appleboy/ssh-action@v0.1.7
+      #   with:
+      #     host: ${{ secrets.BACKEND_HOST }}
+      #     username: ${{ secrets.BACKEND_USER }}
+      #     key: ${{ secrets.BACKEND_SSH_KEY }}
+      #     port: 22
+      #     timeout: 30s
+      #     script: |
+      #       echo "SSH connection successful"
+      #       whoami
+      #       pwd
