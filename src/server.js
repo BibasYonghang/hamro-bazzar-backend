@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ path: ".env.development" });
 
 import express from "express";
 import mongoose from "mongoose";
@@ -21,10 +21,14 @@ import categoryHomeFurnitureRoutes from "./routes/category-products-routes/homeF
 import categoryPersonalCareRoutes from "./routes/category-products-routes/personalCare.routes.js";
 import allProductsRoutes from "./routes/allProducts.routes.js";
 import orderRoutes from "./routes/payments-routes/order.routes.js";
+import connectDB from "./config/connectDB.js";
 
 const app = express();
 const PORT = parseInt(process.env.PORT) || 5000;
 const frontend = process.env.FRONTEND_URL;
+
+connectDB();
+
 
 app.use(
   cors({
@@ -76,37 +80,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// MongoDB Connection --
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("✅ MongoDB connected");
 
-    // Start server only after DB connection
-    const server = app.listen(PORT, () =>
-      console.log(`✅ Server running at http://localhost:${PORT}`),
-    );
-
-    // Graceful shutdown
-    process.on("SIGINT", async () => {
-      console.log("⚠️ SIGINT received, closing server and DB connection...");
-      await mongoose.connection.close();
-      server.close(() => {
-        console.log("✅ Server closed gracefully");
-        process.exit(0);
-      });
-    });
-
-    process.on("SIGTERM", async () => {
-      console.log("⚠️ SIGTERM received, closing server and DB connection...");
-      await mongoose.connection.close();
-      server.close(() => {
-        console.log("✅ Server closed gracefully");
-        process.exit(0);
-      });
-    });
-  })
-  .catch((err) => console.error("❌ MongoDB connection failed", err));
+app.listen(PORT, () =>
+  console.log(`✅ Server running at http://localhost:${PORT}`),
+);
