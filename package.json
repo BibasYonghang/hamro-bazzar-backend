@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.js",
-    "seed": "node seeder.js",
+    "seed": "node seeds/seedProducts.js",
     "dev": "nodemon src/server.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
@@ -16,6 +16,8 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@pinecone-database/pinecone": "^7.2.0",
+    "@xenova/transformers": "^2.17.2",
     "axios": "^1.13.2",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
@@ -23,6 +25,7 @@
     "eslint": "^9.39.2",
     "express": "^5.1.0",
     "express-rate-limit": "^8.2.1",
+    "groq-sdk": "^1.2.0",
     "helmet": "^8.1.0",
     "main": "^1000.0.1",
     "mongoose": "^8.18.1",

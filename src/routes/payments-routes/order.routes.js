@@ -12,10 +12,9 @@ import {
 const router = express.Router();
 
 router.post("/payment", initiatePayment);
-router.get("/success", paymentSuccess); // eSewa will redirect here on success
-router.get("/failure", paymentFailure); // eSewa will redirect here on failure
+router.get("/success", paymentSuccess);
+router.get("/failure", paymentFailure);
 
 router.post("/generate-signature", generateSignature);
-
 
 export default router;

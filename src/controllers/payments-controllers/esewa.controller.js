@@ -14,35 +14,29 @@ export const initiatePayment = (req, res) => {
   if (!amount || !phone || !fullName)
     return res.status(400).json({ message: "Missing required fields" });
 
-  // Define base amounts
   const tax_amount = 0;
   const product_service_charge = 0;
   const product_delivery_charge = 0;
 
-  // total_amount must be an integer or fixed-point number, no object math tricks
+
   const total_amount =
     Number(amount) +
     tax_amount +
     product_service_charge +
     product_delivery_charge;
 
-  // Create unique transaction UUID
   const transaction_uuid = uuidv4();
   const product_code = "EPAYTEST"; // sandbox merchant code
 
-  // URLs
   const success_url = `${FRONTEND_URL}/api/esewa/success`;
   const failure_url = `${FRONTEND_URL}/api/esewa/failure`;
 
-  // Required signature fields
   const signed_field_names = "total_amount,transaction_uuid,product_code";
 
-  // Build string exactly in that order, **no spaces**, **no extra commas**
   const inputString = `total_amount=${total_amount},transaction_uuid=${transaction_uuid},product_code=${product_code}`;
 
   const secretKey = "8gBm/:&EnhH.1/q";
 
-  // Generate HMAC SHA256 in Base64
   const hmac = crypto.createHmac("sha256", secretKey);
   hmac.update(inputString);
   const signature = hmac.digest("base64");
