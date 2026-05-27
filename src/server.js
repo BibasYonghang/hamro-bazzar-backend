@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config({ path: ".env.development" });
+dotenv.config({ path: ".env.production" });
 
 import express from "express";
 import mongoose from "mongoose";
@@ -21,6 +21,7 @@ import categoryHomeFurnitureRoutes from "./routes/category-products-routes/homeF
 import categoryPersonalCareRoutes from "./routes/category-products-routes/personalCare.routes.js";
 import allProductsRoutes from "./routes/allProducts.routes.js";
 import orderRoutes from "./routes/payments-routes/order.routes.js";
+import aiRoutes from "./routes/ai.routes.js";
 import connectDB from "./config/connectDB.js";
 
 const app = express();
@@ -28,7 +29,6 @@ const PORT = parseInt(process.env.PORT) || 5000;
 const frontend = process.env.FRONTEND_URL;
 
 connectDB();
-
 
 app.use(
   cors({
@@ -53,7 +53,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Test route
-app.get("/", (req, res) => res.send("✅ Server is running!"));
+app.get("/", (req, res) => res.send("Server is running!"));
 
 // Product Routes
 app.use("/api/electronics", electronicsRoutes);
@@ -67,11 +67,9 @@ app.use("/api/category-gaming", categoryGamingRoutes);
 app.use("/api/category-personal-care", categoryPersonalCareRoutes);
 app.use("/api/category-home-furniture", categoryHomeFurnitureRoutes);
 app.use("/api/all-products", allProductsRoutes);
-
-// Order Routes
+app.use("/api/ai", aiRoutes);
 app.use("/api", orderRoutes);
 
-// ----------- Global Error Handler -----------
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(err.status || 500).json({
@@ -80,7 +78,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-
 app.listen(PORT, () =>
-  console.log(`✅ Server running at http://localhost:${PORT}`),
+  console.log(` Server running at http://localhost:${PORT}`),
 );

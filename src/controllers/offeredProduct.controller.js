@@ -11,7 +11,6 @@ const getOfferedProducts = async (req, res) => {
         Products.find({ category: "Home Furniture" }).limit(2),
       ]);
 
-    //  Merge all arrays into one single array
     const offeredProducts = [
       ...electronics,
       ...gaming,

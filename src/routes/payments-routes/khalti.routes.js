@@ -3,7 +3,6 @@ import axios from "axios";
 
 const router = express.Router();
 
-// POST /api/khalti/payment
 router.post("/payment", async (req, res) => {
     const { amount, mobile, product_identity, product_name } = req.body;
 
@@ -16,11 +15,11 @@ router.post("/payment", async (req, res) => {
             "https://khalti.com/api/v2/payment/initiate/",
             {
                 return_url: "https://localhost:5000/api/khalti/success",
-                amount: amount * 100, // Khalti expects paisa
+                amount: amount * 100, 
                 mobile,
                 product_identity,
                 product_name,
-                public_key: "test_public_key_xxxxxxxx" // Replace with your Khalti test public key
+                public_key: "test_public_key_xxxxxxxx" 
             },
             {
                 headers: {
@@ -36,4 +35,4 @@ router.post("/payment", async (req, res) => {
     }
 });
 
-export default router; // ✅ This allows index.js to import it
+export default router; 
