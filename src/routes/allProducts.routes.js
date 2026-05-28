@@ -2,6 +2,6 @@ import allProductsController from "../controllers/allProducts.controller.js";
 import express from "express";
 
 const router = express.Router();
-router.use("/", allProductsController);
+router.get("/", allProductsController);
 
 export default router;
