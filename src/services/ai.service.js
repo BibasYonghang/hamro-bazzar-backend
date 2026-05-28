@@ -1,5 +1,6 @@
 import { createEmbedding } from "./embedding.service.js";
 import { retrieveProducts } from "./retrieval.service.js";
+import { getProductsByIds } from "./product.service.js";
 import { buildAiPromptMessages } from "./prompt.service.js";
 import { generateAiAnswer } from "./aiGeneration.service.js";
 
@@ -11,50 +12,48 @@ export const handleAIChat = async ({
   topK = 4,
   similarityThreshold = 0.62,
 }) => {
-  if (!message || !message.trim()) {
+  if (!message?.trim()) {
     throw new Error("A chat message is required.");
   }
 
   const queryEmbedding = await createEmbedding(message);
-  const retrievedProducts = await retrieveProducts({
+
+  const vectorResults = await retrieveProducts({
     queryEmbedding,
     topK,
-    category,
-    minPrice,
-    maxPrice,
   });
 
-  const filteredProducts = retrievedProducts.filter(
-    (product) => product.score >= Number(similarityThreshold),
+  const ids = vectorResults.map((r) => r.id);
+
+  const fullProducts = await getProductsByIds(ids);
+
+  const scoredProducts = vectorResults
+    .filter((r) => r.score >= similarityThreshold)
+    .map((r) => r.id);
+
+  const filteredProducts = fullProducts.filter((p) =>
+    scoredProducts.includes(p._id.toString()),
   );
-  const resultsForAnswer = retrievedProducts.length ? retrievedProducts : [];
 
-  const answer = resultsForAnswer.length
-    ? await generateAiAnswer({
-        messages: buildAiPromptMessages({
-          query: message,
-          products: resultsForAnswer,
-          filters: { category, minPrice, maxPrice },
-        }),
-      })
-    : "I couldn't find a strong product match in the catalog for that request. Please try a different query or adjust your category/price filters.";
+  const productsForAI =
+    filteredProducts.length > 0 ? filteredProducts : fullProducts;
 
-  const recommendedProducts = filteredProducts.length
-    ? filteredProducts
-    : retrievedProducts;
+  // STEP 5: Build prompt
+  const messages = buildAiPromptMessages({
+    query: message,
+    products: productsForAI,
+    filters: { category, minPrice, maxPrice },
+  });
+
+  const answer = await generateAiAnswer({ messages });
 
   return {
     answer,
-    products: recommendedProducts,
+    products: productsForAI,
     metadata: {
-      query: message,
-      requestedTopK: topK,
-      similarityThreshold: Number(similarityThreshold),
-      category: category || "all",
-      minPrice: minPrice != null ? Number(minPrice) : null,
-      maxPrice: maxPrice != null ? Number(maxPrice) : null,
-      retrievedCount: retrievedProducts.length,
-      returnedCount: recommendedProducts.length,
+      retrievedCount: fullProducts.length,
+      returnedCount: productsForAI.length,
+      similarityThreshold,
     },
   };
 };

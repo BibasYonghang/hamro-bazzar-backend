@@ -67,6 +67,7 @@ app.use("/api/category-gaming", categoryGamingRoutes);
 app.use("/api/category-personal-care", categoryPersonalCareRoutes);
 app.use("/api/category-home-furniture", categoryHomeFurnitureRoutes);
 app.use("/api/all-products", allProductsRoutes);
+app.use("/api/products", allProductsRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api", orderRoutes);
 
@@ -78,6 +79,16 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () =>
-  console.log(` Server running at http://localhost:${PORT}`),
-);
+const startServer = async () => {
+  try {
+    await connectDB();
+
+    app.listen(PORT, () =>
+      console.log(`Server running at http://localhost:${PORT}`),
+    );
+  } catch (err) {
+    console.error("Failed to start server:", err);
+  }
+};
+
+startServer();
