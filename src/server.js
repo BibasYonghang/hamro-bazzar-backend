@@ -1,5 +1,4 @@
-import dotenv from "dotenv";
-dotenv.config({ path: ".env.production" });
+import "./config/env.js";
 
 import express from "express";
 import mongoose from "mongoose";
@@ -7,6 +6,13 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
+import mongoSanitize from "express-mongo-sanitize";
+import responseTime from "response-time";
+import compression from "compression";
+import hpp from "hpp";
+
+
+
 
 // Routes
 import electronicsRoutes from "./routes/electronics.routes.js";
@@ -39,6 +45,11 @@ app.use(
 );
 
 app.use(helmet());
+app.use(compression());
+app.use(hpp());
+app.use(mongoSanitize());
+app.use(responseTime())
+
 
 // Rate limiter (100 requests per 15 min)
 const limiter = rateLimit({
