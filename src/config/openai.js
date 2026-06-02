@@ -1,7 +1,4 @@
-import dotenv from "dotenv";
 import OpenAI from "openai";
-
-dotenv.config({ path: ".env.development" });
 
 const apiKey = process.env.OPENAI_API_KEY;
 const isApiKeyValid =
