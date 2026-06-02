@@ -6,7 +6,6 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
-import mongoSanitize from "express-mongo-sanitize";
 import responseTime from "response-time";
 import compression from "compression";
 import hpp from "hpp";
@@ -31,10 +30,8 @@ import aiRoutes from "./routes/ai.routes.js";
 import connectDB from "./config/connectDB.js";
 
 const app = express();
-const PORT = parseInt(process.env.PORT) || 5000;
-const frontend = process.env.FRONTEND_URL;
-
-connectDB();
+const PORT = parseInt(process.env.PORT, 10) || 3000;
+const frontend = process.env.FRONTEND_URL || "http://localhost:5173";
 
 app.use(
   cors({
@@ -47,7 +44,6 @@ app.use(
 app.use(helmet());
 app.use(compression());
 app.use(hpp());
-app.use(mongoSanitize());
 app.use(responseTime())
 
 
